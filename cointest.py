@@ -105,7 +105,7 @@ def generate_signals(z_series, entry_z, exit_z, stop_z):
         
         #
         if current_pos != 0:
-            #stop loss
+            #stop loss~
             if (current_pos == 1 and z < -stop_z) or (current_pos == -1 and z > stop_z):
                 current_pos = 0
             elif (current_pos == 1 and z >= -exit_z) or (current_pos == -1 and z <= exit_z):
@@ -212,7 +212,7 @@ plt.show()
 #comparing with benchmark
 
 #nifty bank
-print("\nDownloading Benchmark Data (^NSEBANK)...")
+print("\ndownloading nse bank data")
 benchmark_df = yf.download("^NSEBANK", start=start, end=end, auto_adjust=False)
 
 # Extract Adj Close properly handling potential MultiIndex or DataFrame output
@@ -276,7 +276,6 @@ plt.show()
 #robustness checking
 
 def run_robustness_backtest(z_series, entry_threshold, tc_bps):
-    """Simplified backtest function for rapid sensitivity testing."""
     tc = tc_bps / 10000
     pos = generate_signals(z_series, entry_threshold, exit_z=0.0, stop_z=4.0)
     
@@ -312,13 +311,13 @@ sub_2_res['Period'] = 'Second Half (2023-2025)'
 
 sub_period_df = pd.DataFrame([sub_1_res, sub_2_res])
 
-print("\n--- ROBUSTNESS CHECK 1: Z-SCORE THRESHOLD ---")
+print("\nROBUSTNESS CHECK 1: Z-SCORE THRESHOLD")
 print(z_robustness_df[['Entry_Z', 'CAGR', 'Sharpe', 'MaxDD']])
 
-print("\n--- ROBUSTNESS CHECK 2: TRANSACTION COSTS ---")
+print("\nROBUSTNESS CHECK 2: TRANSACTION COSTS")
 print(tc_robustness_df[['TC_bps', 'CAGR', 'Sharpe', 'MaxDD']])
 
-print("\n--- ROBUSTNESS CHECK 3: SUB-PERIOD ANALYSIS ---")
+print("\nROBUSTNESS CHECK 3: SUB-PERIOD ANALYSIS")
 print(sub_period_df[['Period', 'CAGR', 'Sharpe', 'MaxDD']])
 
 # Plotting Robustness for Report
